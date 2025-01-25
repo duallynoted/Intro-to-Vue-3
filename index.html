@@ -21,6 +21,19 @@
           <div class="product-info">
             <h1>{{ product }}</h1>
             <p>{{ description }}</p>
+            <p v-if="inventory > 10">In Stock</p>
+            <p v-if="inventory <= 10 && inventory > 0">Almost Sold Out!</p>
+            <p v-show="onSale >=24 && onSale < 30">
+              On Sale. Get it while you still can!
+            </p>
+            <p v-show="onSale >= 30">Sale has ended.</p>
+            <!-- this adds and removes element from the dom (in data, this is bool true/false) -->
+            <!-- <p v-if="inStock">In Stock</p> -->
+            <!-- using v-else for out of stock, but not really necessary -->
+            <p v-else>Out of Stock</p>
+            <!-- v-show is more perfomant; rather than adding and removing from 
+            the DOM, it toggles the elements' visibility  -->
+            <p v-show="hasDesiredColorInStock">Color In Stock</p>
             <!-- Using shorthand of just the colon :href instead of v-bind:href -->
             <a :href="bombasUrl">Get Foot Casings</a>
           </div>
