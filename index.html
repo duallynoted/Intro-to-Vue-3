@@ -18,7 +18,7 @@
         <div class="product-container">
           <div class="product-image">
             <!-- using v-bind to bind property with expression, like {{}} -->
-            <img v-bind:src="image" />
+            <img v-bind:src="image" :class="{'out-of-stock-img': !inStock}" />
           </div>
           <div class="product-info">
             <h1>{{ product }}</h1>
@@ -31,13 +31,24 @@
             </ul>
             <div>
               <h3>Colors</h3>
+              <!-- 
+                These 
+                class="color-circle"
+                :class="{ active: activeClass}"
+                get combined like this when it renders:
+                class="color-circle active"
+                can use inline ternary operaters, which is a helpful tool class binding gives:
+                :class="[isActive ? activeClass: '']" //uses array syntax
+               -->
               <div
-                class="colors"
+                class="color-circle"
+                :class="{ active: activeClass}"
                 v-for="variant in variants"
                 :key="variant.id"
+                :style="{ backgroundColor: variant.color }"
                 @mouseover="updateImage(variant.image)"
               >
-                {{ variant.color }}
+                <!-- {{ variant.color }} -->
               </div>
               <h3>Size Options</h3>
               <div v-for="size in sizes" :key="size.id">
@@ -47,14 +58,22 @@
             </div>
             <p v-show="onSale >= 30">Sale has ended.</p>
             <!-- this adds and removes element from the dom (in data, this is bool true/false) -->
-            <!-- <p v-if="inStock">In Stock</p> -->
-            <p v-if="inventory > 10">In Stock</p>
+            <p v-if="inStock">In Stock</p>
+            <!-- <p v-if="inventory > 10">In Stock</p> -->
             <!-- using v-else for out of stock, but not really necessary -->
             <p v-else>Out of Stock</p>
             <!-- v-show is more perfomant; rather than adding and removing from 
             the DOM, it toggles the elements' visibility  -->
             <p v-show="hasDesiredColorInStock">Color In Stock</p>
             <!-- v-on is the event listener; its shorthand is @, so ex: @click  -->
+            <!-- <button
+              class="button"
+              :class="{ disabledButton: !instock }"
+              :disabled="!inStock"
+              @click="addToCart"
+            >
+              Add to Cart
+            </button> -->
             <button class="button" @click="addToCart">Add to Cart</button>
             <button class="decrement-button" @click="removeFromCart">
               Remove from Cart
