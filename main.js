@@ -4,10 +4,11 @@ const app = Vue.createApp({
       activeClass: true,
       cart: 0,
       product: 'Socks',
+      brand: 'Vue Mastery',
       description: 'Knee high, warm, colorful foot skin casings.',
-      image: './assets/images/socks_blue.jpg',
+      selectedVariant: 0,
       bombasUrl: 'https://www.bombas.com',
-      inStock: false,
+      // inStock: true,
       // inventory: 100,
       hasDesiredColorInStock: false,
       onSale: getSaleDate(),
@@ -17,11 +18,13 @@ const app = Vue.createApp({
           id: 2234,
           color: 'green',
           image: './assets/images/socks_green.jpg',
+          quantity: 50,
         },
         {
           id: 2235,
           color: 'blue',
           image: './assets/images/socks_blue.jpg',
+          quantity: 0,
         },
       ],
       sizes: [
@@ -40,8 +43,22 @@ const app = Vue.createApp({
       console.log('cart: ', this.cart);
       this.cart > 0 ? (this.cart -= 1) : null;
     },
-    updateImage(variantImage) {
-      this.image = variantImage;
+    updateVariant(index) {
+      this.selectedVariant = index;
+    },
+  },
+  computed: {
+    title() {
+      return this.brand + ' ' + this.product;
+    },
+    saleStatus() {
+      return `${this.brand} ${this.product} are on sale`;
+    },
+    image() {
+      return this.variants[this.selectedVariant].image;
+    },
+    inStock() {
+      return this.variants[this.selectedVariant].quantity;
     },
   },
 });

@@ -21,11 +21,14 @@
             <img v-bind:src="image" :class="{'out-of-stock-img': !inStock}" />
           </div>
           <div class="product-info">
-            <h1>{{ product }}</h1>
+            <h1>{{ title }}</h1>
+            <!-- Was supposed to create a bool for a computed property, but again, the method with a 
+            date is just more fun as it builds the bool in there for ya  -->
+            <h2 v-show="onSale >=17 && onSale < 28">{{ saleStatus }}</h2>
             <p>{{ description }}</p>
-            <p v-show="onSale >=24 && onSale < 30">
+            <!-- <p v-show="onSale >=24 && onSale < 30">
               On Sale. Get it while you still can!
-            </p>
+            </p> -->
             <ul>
               <li v-for="detail in details">{{ detail }}</li>
             </ul>
@@ -43,10 +46,10 @@
               <div
                 class="color-circle"
                 :class="{ active: activeClass}"
-                v-for="variant in variants"
+                v-for="(variant, index) in variants"
                 :key="variant.id"
                 :style="{ backgroundColor: variant.color }"
-                @mouseover="updateImage(variant.image)"
+                @mouseover="updateVariant(index)"
               >
                 <!-- {{ variant.color }} -->
               </div>
